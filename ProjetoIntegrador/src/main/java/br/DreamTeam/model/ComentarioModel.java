@@ -9,56 +9,50 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.annotations.CreationTimestamp;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "tb_comentario")
-public class ComentarioModel 
-{
+public class ComentarioModel {
 
-	@Id 
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_comentario;
-	
-	//CHAVES ESTRANGEIRAS
+
+	// CHAVES ESTRANGEIRAS
 	@ManyToOne
-	@JsonIgnoreProperties("comentarios")
+	@JsonIgnoreProperties({"comentarios","postagem"})
 	@NotNull
 	private UsuarioModel usuario;
-	
+
 	@ManyToOne
-	@JsonIgnoreProperties("comentarios")
+	@JsonIgnoreProperties({"comentarios"})
 	@NotNull
 	private PostagemModel postagem;
-	
-	
 
 	@Column
 	@NotNull
-	private String titulo;//SERÁ QUE PRECISA TER TÍTULO
-	
-	@Column
-	@NotNull
-	private String artigo;//VERIFICAR SE NÃO TEM NENHUM TIPO TEXT
-	
-	
-	@Column
-	@JsonFormat(pattern="yyyy-mm-dd")//VERIFICAR COMO COLOCA A DATA AUTOMÁTICA
-	private Date data;
-	
+	private String artigo;// VERIFICAR SE NÃO TEM NENHUM TIPO TEXT
+
+	@Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	@Temporal(TemporalType.TIMESTAMP)
+	@CreationTimestamp
+	private Date data ;
+
 	@Column
 	private Boolean curtir;
-	
-	//GETTERS AND SETTERS
-	
+
+	// GETTERS AND SETTERS
 
 	public UsuarioModel getUsuario() {
 		return usuario;
 	}
-
 
 	public void setUsuario(UsuarioModel usuario) {
 		this.usuario = usuario;
@@ -70,14 +64,6 @@ public class ComentarioModel
 
 	public void setPostagem(PostagemModel postagem) {
 		this.postagem = postagem;
-	}
-
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
 	}
 
 	public String getArtigo() {
@@ -104,18 +90,12 @@ public class ComentarioModel
 		this.curtir = curtir;
 	}
 
-
 	public Long getId_comentario() {
 		return id_comentario;
 	}
-
 
 	public void setId_comentario(Long id_comentario) {
 		this.id_comentario = id_comentario;
 	}
 
-	
-	
-	
-	
 }

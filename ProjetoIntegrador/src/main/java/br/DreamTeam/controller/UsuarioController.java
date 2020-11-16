@@ -36,14 +36,14 @@ public class UsuarioController implements WebMvcConfigurer
 			
 			//CRUD
 			//CREATE --> POST
-			@PostMapping ("/")
+			@PostMapping 
 			public ResponseEntity<UsuarioModel> criar(@RequestBody UsuarioModel usuario)
 			{
 				return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(usuario));	
 			}
 			
 			//READ --> GET
-			@GetMapping ("/")
+			@GetMapping 
 			public ResponseEntity<List<UsuarioModel>> buscarTodos() 
 			{		
 				return ResponseEntity.ok(repository.findAll());
@@ -60,7 +60,7 @@ public class UsuarioController implements WebMvcConfigurer
 			@GetMapping ("/nome/{nome}")
 			public ResponseEntity<List<UsuarioModel>> buscarPorNome(@PathVariable String nome) 
 			{		
-				return ResponseEntity.ok(repository.findByNome(nome));
+				return ResponseEntity.ok(repository.findByNomeContainingIgnoreCase(nome));
 			}
 			
 			

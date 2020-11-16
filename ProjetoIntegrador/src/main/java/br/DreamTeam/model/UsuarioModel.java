@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -21,18 +23,24 @@ public class UsuarioModel
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id_usuario;
 	
+
+	@Size(max= 100)
 	private String nome;
+	
+	
+	@Size(max= 100)
 	private String login;
+	
+	
+	@Size(max= 20)
 	private String senha;
 	
-	//CHAVES ESTRANGEIRAS
-	
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-	@JsonIgnoreProperties("usuario")
-	private List<PostagemModel> postagens;
+	@JsonIgnoreProperties({"usuario","comentarios"})
+	private List<PostagemModel> postagem;
 	
 	@OneToMany(mappedBy = "usuario",cascade = CascadeType.ALL)
-	@JsonIgnoreProperties("usuario")
+	@JsonIgnoreProperties({"usuario"})
 	private List<ComentarioModel> comentarios;
 	
 	
@@ -62,11 +70,11 @@ public class UsuarioModel
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	public List<PostagemModel> getPostagens() {
-		return postagens;
+	public List<PostagemModel> getPostagem() {
+		return postagem;
 	}
-	public void setPostagens(List<PostagemModel> postagens) {
-		this.postagens = postagens;
+	public void setPostagem(List<PostagemModel> postagens) {
+		this.postagem = postagens;
 	}
 	public List<ComentarioModel> getComentarios() {
 		return comentarios;

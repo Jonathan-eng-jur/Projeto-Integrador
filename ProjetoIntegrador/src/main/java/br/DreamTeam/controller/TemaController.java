@@ -37,14 +37,14 @@ public class TemaController implements WebMvcConfigurer
 			
 				//CRUD
 				//CREATE --> POST
-				@PostMapping ("/")
+				@PostMapping 
 				public ResponseEntity<TemaModel> criar(@RequestBody TemaModel tema)
 				{
 					return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(tema));	
 				}
 				
 				//READ --> GET
-				@GetMapping ("/")
+				@GetMapping 
 				public ResponseEntity<List<TemaModel>> buscarTodos() 
 				{		
 					return ResponseEntity.ok(repository.findAll());
@@ -59,11 +59,9 @@ public class TemaController implements WebMvcConfigurer
 				}
 				
 				@GetMapping ("/nome/{nome}")
-				public ResponseEntity<TemaModel> buscarPorNome(@PathVariable String nome) 
+				public ResponseEntity<List<TemaModel>> buscarPorNome(@PathVariable String nome) 
 				{		
-					return repository.findByNome(nome)
-							.map(temaNome -> ResponseEntity.ok(temaNome))
-							.orElse(ResponseEntity.notFound().build());
+					return ResponseEntity.ok(repository.findByNomeContainingIgnoreCase(nome));
 				}
 				
 				//UPDATE --> PUT
